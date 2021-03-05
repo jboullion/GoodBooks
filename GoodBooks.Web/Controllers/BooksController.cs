@@ -50,5 +50,12 @@ namespace GoodBooks.Web.Controllers
             
             return Ok($"Book created: {book.Title}");
         }
+        
+        [HttpDelete("/api/books/{bookId}")]
+        public ActionResult DeleteBook(int bookId)
+        {
+            _bookService.DeleteBook(bookId);
+            return Ok($"Book Probably Deleted with id {bookId} ;P");
+        }
     }
 }

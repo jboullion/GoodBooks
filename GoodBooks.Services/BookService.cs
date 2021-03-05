@@ -40,9 +40,12 @@ namespace GoodBooks.Services
             if (bookToDelete != null)
             {
                 _db.Remove(bookToDelete);
+                _db.SaveChanges();
             }
-
-            throw new InvalidOperationException("Can't delete book that doesn't exist");
+            else
+            {
+                throw new InvalidOperationException("Can't delete book that doesn't exist");
+            }
         }
     }
 }

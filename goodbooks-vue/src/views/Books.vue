@@ -1,30 +1,38 @@
 <template>
-  <div class="books-container">
-    <h1>My Books</h1>
-    <div v-if="myBooks.length">
-      <ol>
-        <li v-for="book in myBooks" :key="book.id">{{ book.title }}</li>
-      </ol>
-      <v-list-item two-line>
-      <v-list-item-content>
-        <v-list-item-title>Two-line item</v-list-item-title>
-        <v-list-item-subtitle>Secondary text</v-list-item-subtitle>
-      </v-list-item-content>
-    </v-list-item>
-    </div>
-  </div>
+  <v-container>
+    <v-row class="">
+      <v-col cols="12">
+        <h1 class="mb-5">My Books
+          <v-btn
+            to="/add"
+            class="mr-4"
+              
+            >
+            <v-icon class="mr-2">mdi-book</v-icon>
+            <span>Add Book</span>
+          </v-btn>
+        </h1>
+      </v-col>
+    </v-row>
+    <v-row v-if="myBooks.length">
+      <book v-for="book in myBooks" :key="book.id" :book="book"></book>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">
   import BookService from "@/services/book-service";
   import IBook from "@/types/Book";
+  import Book from "@/components/Book.vue"
   import { Component, Vue } from 'vue-property-decorator';
 
   const bookService = new BookService();
 
   @Component({
     name: 'MyBooks',
-    components: {}
+    components: {
+      Book
+    }
   })
   export default class MyBooks extends Vue {
     // data
@@ -50,18 +58,5 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-  h3 {
-    margin: 40px 0 0;
-  }
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-  a {
-    color: #42b983;
-  }
+
 </style>

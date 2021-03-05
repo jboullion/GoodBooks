@@ -1,32 +1,62 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/books">My Books</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="primary"
+      dark
+    >
+      <div class="d-flex align-center">
+        <router-link to="/">
+          <v-img
+            alt="GoodBooks Logo"
+            class="mr-2"
+            contain
+            src="@/assets/logo_transparent.png"
+            transition="scale-transition"
+            width="80"
+          />
+        </router-link>
+      </div>
+
+      <v-spacer></v-spacer>
+
+      <v-btn
+        to="/books"
+        class="mr-4"
+        text
+      >
+        <v-icon class="mr-2">mdi-book</v-icon>
+        <span>Books</span>
+      </v-btn>
+
+      <v-btn
+        href="https://github.com/jboullion/GoodBooks"
+        target="_blank"
+        text
+      >
+        <span class="mr-2">Github</span>
+        <v-icon>mdi-open-in-new</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+import Vue from 'vue';
 
-#nav {
-  padding: 30px;
+export default Vue.extend({
+  name: 'App',
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  components: {
+    
+  },
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+  data: () => ({
+    //
+  }),
+});
+</script>

@@ -1,7 +1,6 @@
 <template>
   <div class="home">
-    <img id="logo" alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="GoodBooks 4 Sale"/>
+    <HelloWorld msg="All your books R belong to us"/>
   </div>
 </template>
 

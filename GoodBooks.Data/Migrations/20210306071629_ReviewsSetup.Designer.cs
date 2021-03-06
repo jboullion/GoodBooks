@@ -3,15 +3,17 @@ using System;
 using GoodBooks.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace GoodBooks.Data.Migrations
 {
     [DbContext(typeof(GoodBooksDbContext))]
-    partial class GoodBooksDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210306071629_ReviewsSetup")]
+    partial class ReviewsSetup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

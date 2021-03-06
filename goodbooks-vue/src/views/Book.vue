@@ -36,62 +36,46 @@
 
                 <v-divider class="mx-4"></v-divider>
 
-                
-
             </v-card>
         </v-col>
     </v-row>
     <v-row>
         <v-col cols="12">
             <h2 class="mb-6">Reviews</h2>
-           
-            <v-card class="mx-auto mb-6"  v-for="review in 10" :key="review">
 
-                <v-card-text>
-                    <v-rating
-                    :value="4.5"
-                    color="amber"
-                    dense
-                    half-increments
-                    readonly
-                    size="14"
-                    class="mb-2 "
-                    ></v-rating>
-                    <div class="mb-1 subtitle-1">
-                        {{ book.author }}
-                    </div>
-
-                    <div>This is the review text</div>
-                </v-card-text>
-
-                
-                <v-btn
-                    color="red lighten-2"
-                    text
-                    class="delete"
-                    @click="deleteReview(review)"
-                >
-                    <v-icon color="red lighten-1">mdi-delete</v-icon>
-                </v-btn>
-            </v-card>
+            <review v-for="review in bookReviews" :key="review"></review>
+            <review-form></review-form>
         </v-col>
     </v-row>
 </v-container>
 </template>
 
 <script lang="ts">
+import ReviewService from "@/services/review-service";
+import Review from "@/components/Review.vue";
+import IReview from "@/types/Review";
+
+import ReviewForm from "@/components/ReviewForm.vue";
+
 import BookService from "@/services/book-service";
+
 import { Component, Vue } from 'vue-property-decorator';
 
 const bookService = new BookService();
+  const reviewService = new ReviewService();
 
 @Component({
     name: 'Book',
-    components: { }
+    components: { 
+        Review,
+        ReviewForm
+    }
 })
-export default class MyBooks extends Vue {
+
+export default class Book extends Vue {
     // data
     book = {};
+    bookReviews: IReview[] = [];
 
     // computed properties
 
@@ -101,6 +85,7 @@ export default class MyBooks extends Vue {
         if(this.$route.params.bookId){
             const bookId = parseInt(this.$route.params.bookId);
             this.loadBook(bookId);
+            this.loadReviews();
         }
     }
 
@@ -113,7 +98,14 @@ export default class MyBooks extends Vue {
             .catch(err => console.error(err));
     }
 
-
+    loadReviews(){
+        reviewService.getAllBookReviews()
+            .then(res => {
+            this.bookReviews = res;
+            //console.log(this.myBooks);
+            })
+            .catch(err => console.error(err));
+    }
 
 }
 </script>

@@ -48,6 +48,7 @@ namespace GoodBooks.Web.Controllers
                 UpdatedOn = now,
                 ReviewContent = reviewRequest.ReviewContent,
                 ReviewAuthor = reviewRequest.ReviewAuthor,
+                ReviewRating = reviewRequest.ReviewRating,
                 Book = book,
             };
 

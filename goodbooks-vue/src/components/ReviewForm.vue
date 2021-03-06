@@ -9,20 +9,20 @@
         >
 
         <v-rating
-            v-model="review.rating"
+            v-model="review.reviewRating"
             background-color="orange lighten-3"
             color="orange"
             large
         ></v-rating>
 
         <v-text-field
-            v-model="review.author"
+            v-model="review.reviewAuthor"
             label="Author"
             required
         ></v-text-field>
 
         <v-textarea
-            v-model="review.content"
+            v-model="review.reviewContent"
             label="Content"
             hint="How did this book make you feel?"
             class="mb-4"
@@ -63,34 +63,35 @@ const reviewService = new ReviewService();
 export default class AddReview extends Vue {
     // data
     review: IReview = {
-        content: '',
-        author: '',
-        rating: 3
+        reviewContent: '',
+        reviewAuthor: '',
+        reviewRating: 3
     };
 
     valid = false;
 
     reset () {
         //this.$refs.form.reset();
-        this.review.content = '';
-        this.review.author = '';
-        this.review.rating = 3;
+        this.review.reviewContent = '';
+        this.review.reviewAuthor = '';
+        this.review.reviewRating = 3;
     }
 
     get isButtonDisabled(){
-        return this.review.content === "" 
-        || this.review.author === "";
+        return this.review.reviewContent === "" 
+        || this.review.reviewAuthor === "";
     }
 
     submitReview(){
         console.log(this.review);
 
-        // reviewService.addBookReview(this.review)
-        //     .then(() => {
-        //     //console.log(res);
-        //     this.reset();
-        //     })
-        //     .catch(err => console.error(err));
+        reviewService.addBookReview(this.review)
+            .then(() => {
+                //console.log(res);
+                this.reset();
+                this.$emit('reloadReviews');
+            })
+            .catch(err => console.error(err));
         
     }
 }

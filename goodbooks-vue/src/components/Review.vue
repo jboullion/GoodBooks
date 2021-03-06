@@ -3,7 +3,7 @@
 
 	<v-card-text>
 		<v-rating
-		:value="4.5"
+		:value="review.reviewRating"
 		color="amber"
 		dense
 		half-increments
@@ -12,10 +12,10 @@
 		class="mb-2 "
 		></v-rating>
 		<div class="mb-1 subtitle-1">
-			{{ review.author }}
+			{{ review.reviewAuthor }}
 		</div>
 
-		<div>{{ review.content }}</div>
+		<div>{{ review.reviewContent }}</div>
 	</v-card-text>
 
 	
@@ -64,5 +64,9 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
- 
+    .delete {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
 </style>

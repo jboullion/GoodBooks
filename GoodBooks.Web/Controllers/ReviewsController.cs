@@ -21,14 +21,16 @@ namespace GoodBooks.Web.Controllers
             _bookService = bookService;
         }
 
-        [HttpGet("/api/reviews")]
-        public ActionResult GetReviews()
+        [HttpGet("/api/reviews/{bookId}")]
+        public ActionResult GetAllReviews(int bookId)
         {
-            var reviews = _reviewService.GetAllBookReviews();
+            Book book = _bookService.GetBook(bookId);
+            
+            var reviews = _reviewService.GetAllBookReviews(book);
             return Ok(reviews);
         }
         
-        [HttpGet("/api/reviews/{reviewId}")]
+        [HttpGet("/api/review/{reviewId}")]
         public ActionResult GetReview(int reviewId)
         {
             var review = _reviewService.GetBookReview(reviewId);

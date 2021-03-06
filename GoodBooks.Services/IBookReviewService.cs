@@ -5,7 +5,7 @@ namespace GoodBooks.Services
 {
     public interface IBookReviewService
     {
-        public List<BookReview> GetAllBookReviews();
+        public List<BookReview> GetAllBookReviews(Book book);
         public BookReview GetBookReview(int reviewId);
         public void AddBookReview(BookReview review);
         public void DeleteBookReview(int reviewId);

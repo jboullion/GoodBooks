@@ -15,9 +15,9 @@ namespace GoodBooks.Services
             _db = db;
         }
         
-        public List<BookReview> GetAllBookReviews()
+        public List<BookReview> GetAllBookReviews(Book book)
         {
-            return _db.BookReviews.ToList();
+            return _db.BookReviews.ToList(); // Where(p => p.Book == book);//.
         }
 
         public BookReview GetBookReview(int reviewId)

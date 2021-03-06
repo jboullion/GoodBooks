@@ -12,12 +12,16 @@
                 <v-card-title>{{ book.title }}</v-card-title>
 
                 <v-card-text>
+                    <div class="my-4 subtitle-1">
+                        {{ book.author }}
+                    </div>
+
                     <v-row
                         align="center"
                         class="mx-0"
                     >
                         <v-rating
-                        :value="4.5"
+                        :value="calculatedRating"
                         color="amber"
                         dense
                         half-increments
@@ -25,12 +29,8 @@
                         size="14"
                         ></v-rating>
 
-                        <div class="grey--text ml-4">4.5 (413)</div>
+                        <div class="grey--text ml-4">{{ calculatedRating }} ({{ bookReviews.length }})</div>
                     </v-row>
-
-                    <div class="my-4 subtitle-1">
-                        {{ book.author }}
-                    </div>
 
                 </v-card-text>
 
@@ -43,8 +43,14 @@
         <v-col cols="12">
             <h2 class="mb-6">Reviews</h2>
 
-            <review v-for="review in bookReviews" :key="review"></review>
-            <review-form></review-form>
+            <div v-if="bookReviews.length">
+                <review v-for="review in bookReviews" 
+                    :key="review.id" 
+                    :review="review"
+                    @reloadReviews="loadReviews">
+                </review>
+            </div>
+            <review-form @reloadReviews="loadReviews"></review-form>
         </v-col>
     </v-row>
 </v-container>
@@ -62,7 +68,7 @@ import BookService from "@/services/book-service";
 import { Component, Vue } from 'vue-property-decorator';
 
 const bookService = new BookService();
-  const reviewService = new ReviewService();
+const reviewService = new ReviewService();
 
 @Component({
     name: 'Book',
@@ -75,7 +81,9 @@ const bookService = new BookService();
 export default class Book extends Vue {
     // data
     book = {};
+    bookId = 0;
     bookReviews: IReview[] = [];
+    calculatedRating = 0;
 
     // computed properties
 
@@ -83,28 +91,47 @@ export default class Book extends Vue {
     // lifecycle hooks
     created() {
         if(this.$route.params.bookId){
-            const bookId = parseInt(this.$route.params.bookId);
-            this.loadBook(bookId);
-            this.loadReviews();
+            this.bookId = parseInt(this.$route.params.bookId);
+            this.loadBook(this.bookId);
+            this.loadReviews(this.bookId);
         }
     }
 
     loadBook(bookId: number){
         bookService.getBook(bookId)
             .then(res => {
-            this.book = res;
-            //console.log(this.myBooks);
+                this.book = res;
             })
             .catch(err => console.error(err));
     }
 
-    loadReviews(){
-        reviewService.getAllBookReviews()
+    loadReviews(bookId: number){
+        reviewService.getAllBookReviews() // bookId
             .then(res => {
-            this.bookReviews = res;
-            //console.log(this.myBooks);
+                // const allReviews = res;
+                // if(allReviews && allReviews.length){
+                //     allReviews.filter(review => {
+                //         return review.bookId == this.bookId;
+                //     })
+                // }
+                this.bookReviews = res;
+                //console.log(this.bookReviews);
+                this.calculateRating();
             })
             .catch(err => console.error(err));
+    }
+
+    calculateRating(){
+        if(this.bookReviews && this.bookReviews.length){
+            let totalRating = 0;
+            for(let i = 0; i < this.bookReviews.length; i++){
+                if(! isNaN(this.bookReviews[i].reviewRating)){
+                    totalRating += this.bookReviews[i].reviewRating;
+                }
+            }
+
+            this.calculatedRating = parseFloat((totalRating / this.bookReviews.length).toFixed(1));
+        }
     }
 
 }
@@ -113,9 +140,5 @@ export default class Book extends Vue {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 
-    .delete {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
+ 
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <router-link :to="`/books/${book.id}`" class="book">
    <v-list-item>
       <v-list-item-avatar>
         <v-img
@@ -24,7 +24,7 @@
     </v-list-item>
 
     <v-divider inset></v-divider>
-  </div>
+  </router-link>
 </template>
 
 <script lang="ts">
@@ -68,5 +68,14 @@
   .v-card__actions {
     position: absolute;
     bottom: 0;
+  }
+
+  .book {
+    display: block;
+    transition: background-color 0.2s;
+    text-decoration: none;
+  }
+  .book:hover {
+    background-color:#f6f6f6;
   }
 </style>

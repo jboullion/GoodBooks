@@ -13,18 +13,17 @@ const routes: Array<RouteConfig> = [
   {
     path: '/books',
     name: 'Books',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Books.vue')
+    component: () => import(/* webpackChunkName: "books" */ '../views/Books.vue')
+  },
+  {
+    path: '/books/:bookId',
+    name: 'Book',
+    component: () => import(/* webpackChunkName: "book" */ '../views/Book.vue')
   },
   {
     path: '/add',
     name: 'Add Book',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AddBook.vue')
+    component: () => import(/* webpackChunkName: "addBook" */ '../views/AddBook.vue')
   }
 ]
 

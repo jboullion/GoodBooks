@@ -9,6 +9,11 @@ export default class BookService {
 		return result.data;
 	}
 
+	public async getBook(bookId: number) {
+		const result = await axios.get(`${this.API_URL}/books/${bookId}`);
+		return result.data;
+	}
+
 	public async addBook(book: IBook) {
 		const result = await axios.post(`${this.API_URL}/books/`, book);
 		return result.data;
@@ -18,4 +23,6 @@ export default class BookService {
 		const result = await axios.delete(`${this.API_URL}/books/${bookId}`);
 		return result.data;
 	}
+
+	
 }

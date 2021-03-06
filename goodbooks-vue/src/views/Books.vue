@@ -4,8 +4,8 @@
 
     <v-row v-if="myBooks.length">
       <v-col cols="12">
-        <v-list two-line>
-          <book v-for="book in myBooks" :key="book.id" :book="book" @reloadBooks="reloadBooks"></book>
+        <v-list two-line nav>
+          <book v-for="book in myBooks" :key="book.id" :book="book" @reloadBooks="loadBooks"></book>
         </v-list>
       </v-col>
     </v-row>
@@ -37,15 +37,10 @@
 
     // lifecycle hooks
     created() {
-      bookService.getAllBooks()
-        .then(res => {
-          this.myBooks = res;
-          //console.log(this.myBooks);
-        })
-        .catch(err => console.error(err));
+      this.loadBooks();
     }
 
-    reloadBooks(){
+    loadBooks(){
        bookService.getAllBooks()
         .then(res => {
           this.myBooks = res;

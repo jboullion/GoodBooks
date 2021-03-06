@@ -1,32 +1,38 @@
 <template>
-	<v-col cols="4">
-		<v-card
-		class="mx-auto"
-		height="100%"
-	>
-		<v-card-text>
-		<p class="display-1 text--primary">
-			{{ book.title }}
-		</p>
-		<p>{{ book.author }}</p>
-		</v-card-text>
-		<v-card-actions bottom>
-			<v-btn
-				text
-				color="red accent-4"
-				@click="reveal = true"
-			>
-				Delete
-			</v-btn>
-		</v-card-actions>
-	</v-card>
-	</v-col>
+  <div>
+   <v-list-item>
+      <v-list-item-avatar>
+        <v-img
+          :src="`https://picsum.photos/seed/${book.title}/50`"
+        >
+        </v-img>
+      </v-list-item-avatar>
+
+      <v-list-item-content>
+        <v-list-item-title v-text="book.title"></v-list-item-title>
+
+        <v-list-item-subtitle class="text--primary" v-text="book.author"></v-list-item-subtitle>
+        <v-list-item-subtitle>{{ book.createdOn | humanize }}</v-list-item-subtitle>
+      </v-list-item-content>
+
+      <v-list-item-action>
+        <v-btn icon
+          @click="deleteBook(book.id)">
+          <v-icon color="red lighten-1">mdi-delete</v-icon>
+        </v-btn>
+      </v-list-item-action>
+    </v-list-item>
+
+    <v-divider inset></v-divider>
+  </div>
 </template>
 
 <script lang="ts">
-
+  import BookService from "@/services/book-service";
   import IBook from '@/types/Book';
-import { Component, Prop, Vue } from 'vue-property-decorator';
+  import { Component, Prop, Vue } from 'vue-property-decorator';
+
+  const bookService = new BookService();
 
   @Component({
     name: 'Book',
@@ -34,20 +40,33 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
   })
 
   export default class Book extends Vue {
-	@Prop({ required: true })
-	book!: IBook;
+    active = false;
+
+    @Prop({ required: true })
+    book!: IBook;
+
+    async deleteBook(bookId: number){
+
+      await bookService.deleteBook(bookId)
+        .then(() => {
+          //console.log(res);
+          this.$emit('reloadBooks');
+        })
+        .catch(err => console.error(err));
+
+    }
 
   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-	.v-card__text {
-		padding-bottom: 50px;
-	}
-	
-	.v-card__actions {
-		position: absolute;
-		bottom: 0;
-	}
+  .v-card__text {
+    padding-bottom: 50px;
+  }
+  
+  .v-card__actions {
+    position: absolute;
+    bottom: 0;
+  }
 </style>

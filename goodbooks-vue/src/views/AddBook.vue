@@ -1,35 +1,29 @@
 <template>
   <v-container>
-    <v-row class="">
-      <v-col cols="12">
-        <h1 class="mb-5">Add Books</h1>
-      </v-col>
-    </v-row>
+    <h1 class="mb-5">Add Book</h1>
+ 
 		<v-form
       ref="form"
       v-model="valid"
       lazy-validation
     >
       <v-text-field
-        v-model="name"
-        :counter="10"
-        :rules="nameRules"
-        label="Name"
+        v-model="book.title"
+        label="Title"
         required
       ></v-text-field>
 
       <v-text-field
-        v-model="email"
-        :rules="emailRules"
-        label="E-mail"
+        v-model="book.author"
+        label="Author"
         required
       ></v-text-field>
 
       <v-btn
-        :disabled="!valid"
+        :disabled="isButtonDisabled"
         color="success"
         class="mr-4"
-        @click="validate"
+        @click="submitBook"
       >
         Submit
       </v-btn>
@@ -47,24 +41,45 @@
 </template>
 
 <script lang="ts">
-  //import BookService from "@/services/book-service";
-  import IBook from "@/types/Book";
+  import BookService from "@/services/book-service";
+  import IBook from '@/types/Book';
   import { Component, Vue } from 'vue-property-decorator';
 
-  //const bookService = new BookService();
+  const bookService = new BookService();
 
   @Component({
     name: 'AddBook',
-    components: {
-      
-    }
+    components: { }
   })
   export default class AddBook extends Vue {
     // data
-    title = '';
-    author = '';
-    valid = true;
+    book: IBook = {
+      title: '',
+      author: ''
+    };
+   
+    valid = false;
 
+    reset () {
+      //this.$refs.form.reset();
+      this.book.title = '';
+      this.book.author = '';
+    }
+
+    get isButtonDisabled(){
+      return this.book.title === "" 
+      || this.book.author === "";
+    }
+
+    submitBook(){
+      bookService.addBook(this.book)
+        .then(() => {
+          //console.log(res);
+          this.reset();
+        })
+        .catch(err => console.error(err));
+        
+    }
   }
 </script>
 

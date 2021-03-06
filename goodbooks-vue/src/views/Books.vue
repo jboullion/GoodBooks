@@ -1,21 +1,13 @@
 <template>
   <v-container>
-    <v-row class="">
-      <v-col cols="12">
-        <h1 class="mb-5">My Books
-          <v-btn
-            to="/add"
-            class="mr-4"
-              
-            >
-            <v-icon class="mr-2">mdi-book</v-icon>
-            <span>Add Book</span>
-          </v-btn>
-        </h1>
-      </v-col>
-    </v-row>
+    <h1 class="mb-2">My Books</h1>
+
     <v-row v-if="myBooks.length">
-      <book v-for="book in myBooks" :key="book.id" :book="book"></book>
+      <v-col cols="12">
+        <v-list two-line>
+          <book v-for="book in myBooks" :key="book.id" :book="book" @reloadBooks="reloadBooks"></book>
+        </v-list>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -48,7 +40,16 @@
       bookService.getAllBooks()
         .then(res => {
           this.myBooks = res;
-          console.log(this.myBooks);
+          //console.log(this.myBooks);
+        })
+        .catch(err => console.error(err));
+    }
+
+    reloadBooks(){
+       bookService.getAllBooks()
+        .then(res => {
+          this.myBooks = res;
+          //console.log(this.myBooks);
         })
         .catch(err => console.error(err));
     }

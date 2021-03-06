@@ -29,6 +29,15 @@
         <span>Books</span>
       </v-btn>
 
+       <v-btn
+        to="/add"
+        class="mr-4"
+        text
+      >
+        <v-icon class="mr-2">mdi-book-plus</v-icon>
+        <span>Add Book</span>
+      </v-btn>
+
       <v-btn
         href="https://github.com/jboullion/GoodBooks"
         target="_blank"

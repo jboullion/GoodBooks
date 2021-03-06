@@ -52,7 +52,7 @@
 <script lang="ts">
 import ReviewService from "@/services/review-service";
 import IReview from '@/types/Review';
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
 
 const reviewService = new ReviewService();
 
@@ -65,10 +65,16 @@ export default class AddReview extends Vue {
     review: IReview = {
         reviewContent: '',
         reviewAuthor: '',
-        reviewRating: 3
+        reviewRating: 3,
+        bookId: 0
     };
 
-    valid = false;
+    @Prop({ required: true })
+    bookId!: number;
+
+    created() {
+        this.review.bookId = this.bookId;
+    }
 
     reset () {
         //this.$refs.form.reset();
@@ -83,8 +89,6 @@ export default class AddReview extends Vue {
     }
 
     submitReview(){
-        console.log(this.review);
-
         reviewService.addBookReview(this.review)
             .then(() => {
                 //console.log(res);

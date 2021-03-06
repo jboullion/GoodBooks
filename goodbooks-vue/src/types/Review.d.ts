@@ -5,4 +5,5 @@ export default interface IBook {
 	reviewContent: string;
 	reviewAuthor: string;
 	reviewRating: number;
+	bookId: number;
 }

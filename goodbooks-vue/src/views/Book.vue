@@ -50,7 +50,7 @@
                     @reloadReviews="loadReviews">
                 </review>
             </div>
-            <review-form @reloadReviews="loadReviews"></review-form>
+            <review-form @reloadReviews="loadReviews" :bookId="bookId"></review-form>
         </v-col>
     </v-row>
 </v-container>
@@ -93,7 +93,7 @@ export default class Book extends Vue {
         if(this.$route.params.bookId){
             this.bookId = parseInt(this.$route.params.bookId);
             this.loadBook(this.bookId);
-            this.loadReviews(this.bookId);
+            this.loadReviews();
         }
     }
 
@@ -105,15 +105,9 @@ export default class Book extends Vue {
             .catch(err => console.error(err));
     }
 
-    loadReviews(bookId: number){
-        reviewService.getAllBookReviews() // bookId
+    loadReviews(){
+        reviewService.getAllBookReviews(this.bookId) 
             .then(res => {
-                // const allReviews = res;
-                // if(allReviews && allReviews.length){
-                //     allReviews.filter(review => {
-                //         return review.bookId == this.bookId;
-                //     })
-                // }
                 this.bookReviews = res;
                 //console.log(this.bookReviews);
                 this.calculateRating();

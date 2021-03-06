@@ -4,8 +4,8 @@ import IReview from "@/types/Review"
 export default class ReviewService {
 	API_URL = process.env.VUE_APP_API_URL;
 
-	public async getAllBookReviews(): Promise<IReview[]> { // bookId: number
-		const result = await axios.get(`${this.API_URL}/reviews/`); // ${bookId}
+	public async getAllBookReviews(bookId: number): Promise<IReview[]> {
+		const result = await axios.get(`${this.API_URL}/reviews/${bookId}`);
 		return result.data;
 	}
 

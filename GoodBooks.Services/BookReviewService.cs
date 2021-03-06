@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GoodBooks.Data;
 using GoodBooks.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GoodBooks.Services
 {
@@ -15,9 +16,12 @@ namespace GoodBooks.Services
             _db = db;
         }
         
-        public List<BookReview> GetAllBookReviews(Book book)
+        public List<BookReview> GetAllBookReviews(int bookId)
         {
-            return _db.BookReviews.ToList(); // Where(p => p.Book == book);//.
+            return _db.BookReviews
+                    .Include(b => b.Book)
+                        .Where(b => b.Book.Id == bookId)
+                        .ToList();
         }
 
         public BookReview GetBookReview(int reviewId)

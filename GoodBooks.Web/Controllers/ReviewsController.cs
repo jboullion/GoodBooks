@@ -24,9 +24,9 @@ namespace GoodBooks.Web.Controllers
         [HttpGet("/api/reviews/{bookId}")]
         public ActionResult GetAllReviews(int bookId)
         {
-            Book book = _bookService.GetBook(bookId);
+            // Book book = _bookService.GetBook(bookId);
             
-            var reviews = _reviewService.GetAllBookReviews(book);
+            var reviews = _reviewService.GetAllBookReviews(bookId);
             return Ok(reviews);
         }
         

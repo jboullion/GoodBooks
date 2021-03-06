@@ -4,5 +4,6 @@
     {
         public string ReviewContent { get; set; }
         public string ReviewAuthor { get; set; }
+        public int BookId { get; set; }
     }
 }

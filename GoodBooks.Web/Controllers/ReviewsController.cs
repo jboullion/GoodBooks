@@ -12,11 +12,13 @@ namespace GoodBooks.Web.Controllers
     {
         private readonly ILogger<ReviewsController> _logger;
         private readonly IBookReviewService _reviewService;
+        private readonly IBookService _bookService;
 
-        public ReviewsController(ILogger<ReviewsController> logger, IBookReviewService reviewService)
+        public ReviewsController(ILogger<ReviewsController> logger, IBookReviewService reviewService, IBookService bookService)
         {
             _logger = logger;
             _reviewService = reviewService;
+            _bookService = bookService;
         }
 
         [HttpGet("/api/reviews")]
@@ -38,12 +40,15 @@ namespace GoodBooks.Web.Controllers
         {
             var now = DateTime.UtcNow;
             
+            Book book = _bookService.GetBook(reviewRequest.BookId);
+            
             var review = new BookReview
             {
                 CreatedOn = now,
                 UpdatedOn = now,
                 ReviewContent = reviewRequest.ReviewContent,
-                ReviewAuthor = reviewRequest.ReviewAuthor
+                ReviewAuthor = reviewRequest.ReviewAuthor,
+                Book = book,
             };
 
             _reviewService.AddBookReview(review);

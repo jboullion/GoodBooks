@@ -17,7 +17,7 @@
 
       <v-list-item-action>
         <v-btn icon
-          @click="deleteBook(book.id)">
+          @click.prevent="deleteBook(book.id)">
           <v-icon color="red lighten-1">mdi-delete</v-icon>
         </v-btn>
       </v-list-item-action>

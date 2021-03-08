@@ -35,10 +35,13 @@ namespace GoodBooks.Services
 
         public void DeleteBook(int bookId)
         {
+            DeleteAllBookReviews(bookId);
+            
             var bookToDelete = _db.Books.Find(bookId);
             
             if (bookToDelete != null)
             {
+                // Delete all our reviews first
                 _db.Remove(bookToDelete);
                 _db.SaveChanges();
             }
@@ -46,6 +49,19 @@ namespace GoodBooks.Services
             {
                 throw new InvalidOperationException("Can't delete book that doesn't exist");
             }
+        }
+        
+        private void DeleteAllBookReviews(int bookId)
+        {
+            var reviewToDelete = _db.BookReviews.Find(bookId);
+
+            var reviewsToDelete = _db.BookReviews.Where(b => b.Book.Id == bookId);
+            
+            foreach (var review in reviewsToDelete)
+            {
+                _db.BookReviews.Remove(review);
+            }
+            _db.SaveChanges();
         }
     }
 }

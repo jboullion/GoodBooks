@@ -5,7 +5,7 @@
     <v-row v-if="myBooks.length">
       <v-col cols="12">
         <v-list two-line nav>
-          <book v-for="book in myBooks" :key="book.id" :book="book" @reloadBooks="loadBooks"></book>
+          <BookListItem v-for="book in myBooks" :key="book.id" :book="book" @reloadBooks="loadBooks"></BookListItem>
         </v-list>
       </v-col>
     </v-row>
@@ -15,7 +15,7 @@
 <script lang="ts">
   import BookService from "@/services/book-service";
   import IBook from "@/types/Book";
-  import Book from "@/components/Book.vue"
+  import BookListItem from "@/components/BookListItem.vue"
   import { Component, Vue } from 'vue-property-decorator';
 
   const bookService = new BookService();
@@ -23,7 +23,7 @@
   @Component({
     name: 'MyBooks',
     components: {
-      Book
+      BookListItem
     }
   })
   export default class MyBooks extends Vue {

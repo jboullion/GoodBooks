@@ -35,11 +35,11 @@
   const bookService = new BookService();
 
   @Component({
-    name: 'Book',
+    name: 'BookListItem',
     components: {}
   })
 
-  export default class Book extends Vue {
+  export default class BookListItem extends Vue {
     active = false;
 
     @Prop({ required: true })

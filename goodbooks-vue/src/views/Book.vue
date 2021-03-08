@@ -58,10 +58,9 @@
 
 <script lang="ts">
 import ReviewService from "@/services/review-service";
-import Review from "@/components/Review.vue";
-import IReview from "@/types/Review";
-
+import Review from "@/components/Review.vue"
 import ReviewForm from "@/components/ReviewForm.vue";
+import IReview from "@/types/Review";
 
 import BookService from "@/services/book-service";
 
@@ -125,6 +124,8 @@ export default class Book extends Vue {
             }
 
             this.calculatedRating = parseFloat((totalRating / this.bookReviews.length).toFixed(1));
+        }else{
+            this.calculatedRating = 0;
         }
     }
 

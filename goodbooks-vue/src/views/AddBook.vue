@@ -1,7 +1,12 @@
 <template>
   <v-container>
     <h1 class="mb-5">Add Book</h1>
- 
+    <v-alert
+      v-if="successMessage"
+      border="left"
+      type="success"
+      dismissible
+    >{{ successMessage }}</v-alert>
 		<v-form
       ref="form"
       v-model="valid"
@@ -59,6 +64,7 @@
     };
    
     valid = false;
+    successMessage = '';
 
     reset () {
       //this.$refs.form.reset();
@@ -72,10 +78,15 @@
     }
 
     submitBook(){
+      const bookTitle = this.book.title;
       bookService.addBook(this.book)
         .then(() => {
           //console.log(res);
           this.reset();
+          this.successMessage = '"'+bookTitle+'" added to book list!';
+          // setTimeout(()=>{
+          //   this.successMessage = '';
+          // }, 5000)
         })
         .catch(err => console.error(err));
         
